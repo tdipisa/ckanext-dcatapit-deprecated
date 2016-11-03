@@ -1,0 +1,16 @@
+{% ckan_extends %}
+
+{% set schema_fields = h.get_dcatapit_schema() %}
+
+{% block package_basic_fields_custom %}
+
+	{% for field in schema_fields %}
+		{% if field.element == 'input' %}
+			{{ form.input(field.name, label=_(field.label), id='field-' + field.name, placeholder=_(field.placeholder), type=field.type, value=data[field.name], error=errors[field.name], classes=['control-medium']) }}
+		{% elif field.element == 'select' %}
+
+		{% endif %}
+	{% endfor %}
+
+
+{% endblock %}

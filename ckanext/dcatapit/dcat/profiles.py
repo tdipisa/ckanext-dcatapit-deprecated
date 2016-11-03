@@ -10,7 +10,6 @@ DCT = Namespace("http://purl.org/dc/terms/")
 class ItalianDCATAPProfile(RDFProfile):
     '''
     An RDF profile for the Italian DCAT-AP recommendation for data portals
-
     It requires the European DCAT-AP profile (`euro_dcat_ap`)
     '''
 
