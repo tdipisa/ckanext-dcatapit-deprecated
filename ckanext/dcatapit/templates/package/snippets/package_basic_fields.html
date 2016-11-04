@@ -1,13 +1,38 @@
 {% ckan_extends %}
 
+{% import 'macros/dcatapit_form_macros.html' as dcatapit_form_macros %}
+
 {% set schema_fields = h.get_dcatapit_schema() %}
 
 {% block package_basic_fields_custom %}
 
 	{% for field in schema_fields %}
 		{% if field.element == 'input' %}
-			{{ form.input(field.name, label=_(field.label), id='field-' + field.name, placeholder=_(field.placeholder), type=field.type, value=data[field.name], error=errors[field.name], classes=['control-medium']) }}
+
+			{{ form.input(field.name, label=_(field.label), id='field-' + field.name, placeholder=_(field.placeholder), type=field.type, value=data[field.name], error=errors[field.name], classes=['control-medium'], is_required=field.is_required) }}
+
 		{% elif field.element == 'select' %}
+
+			{% set tag_attrs = {'data-module': 'autocomplete', 'data-module-tags': '', 'data-module-source': field.data_module_source} %}
+
+		  	{{ form.input(field.name, id='field-' + field.name, label=_(field.label), placeholder=_(field.placeholder), value=data[field.name], error=errors[field.name], classes=['control-full'], attrs=tag_attrs, is_required=field.is_required) }}
+
+		{% elif field.element == 'range' %}
+
+			{% set range_values = data[field.name].split(',') if data[field.name] else ['', ''] %}
+
+	      	{{ 
+	      		dcatapit_form_macros.date_range(
+	      			field.name,
+	      			range_labels=(field.renges[0].label,
+	      			field.renges[1].label),
+	      			range_names=(field.renges[0].name, field.renges[1].name),
+	      			id='field-range-' + field.name, label=_(field.label),
+	      			values=(range_values[0], range_values[1], False),
+	      			error=errors[field.renges[0].name] or errors[field.renges[1].name],
+	      			type=field.type,
+	      			is_required=field.is_required)
+	      	}}
 
 		{% endif %}
 	{% endfor %}

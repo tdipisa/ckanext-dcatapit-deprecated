@@ -21,6 +21,16 @@ def get_json_schema():
 		    'is_required': False
 	    },
 	    {
+		    'name': 'theme',
+		    'validator': ['not_empty'],
+		    'element': 'select',
+		    'type': 'list',
+		    'label': 'Dataset Themes',
+		    'placeholder': 'eg. economy, mental health, government',
+		    'data_module_source': '/api/2/util/tag/autocomplete?incomplete=?',
+		    'is_required': True
+	    },
+	    {
 		    'name': 'publisher_uri',
 		    'validator': ['ignore_missing'],
 		    'element': 'input',
@@ -33,9 +43,93 @@ def get_json_schema():
 		    'name': 'issued',
 		    'validator': ['ignore_missing'],
 		    'element': 'input',
-		    'type': 'data',
+		    'type': 'date',
 		    'label': 'Release Date',
 		    'placeholder': 'release date',
+		    'is_required': False
+	    },
+	    {
+		    'name': 'modified',
+		    'validator': ['not_empty'],
+		    'element': 'input',
+		    'type': 'date',
+		    'label': 'Modification Date',
+		    'placeholder': 'modification date',
+		    'is_required': True
+	    },
+	    {
+		    'name': 'geographical_coverage',
+		    'validator': ['not_empty'],
+		    'element': 'input',
+		    'type': 'text',
+		    'label': 'Geographical Coverage',
+		    'placeholder': 'geographical coverage',
+		    'is_required': True
+	    },
+	    {
+		    'name': 'language',
+		    'validator': ['not_empty'],
+		    'element': 'select',
+		    'type': 'list',
+		    'label': 'Dataset Languages',
+		    'placeholder': 'eg. italian, german, english',
+		    'data_module_source': '/api/2/util/tag/autocomplete?incomplete=?',
+		    'is_required': True
+	    },
+	    {
+		    'name': 'temporal_coverage',
+		    'validator': ['ignore_missing', 'range_validator'],
+		    'element': 'range',
+		    'type': 'date',
+		    'label': 'Temporal Coverage',
+		    'placeholder': 'temporal coverage',
+		    'is_required': False,
+		    'renges': [
+		    	{
+		    		'name': 'start_date',
+		    		'label': 'Start Date'
+		    	},
+			    {
+		    		'name': 'end_date',
+		    		'label': 'End Date'
+		    	}
+		    ]
+	    },
+	    {
+		    'name': 'accrual_periodicity',
+		    'validator': ['not_empty'],
+		    'element': 'select',
+		    'type': 'list',
+		    'label': 'Frequency',
+		    'placeholder': 'accrual periodicity',
+		    'data_module_source': '/api/2/util/tag/autocomplete?incomplete=?',
+		    'is_required': True
+	    },
+	    {
+		    'name': 'is_version_of',
+		    'validator': ['ignore_missing'],
+		    'element': 'input',
+		    'type': 'text',
+		    'label': 'Version Of',
+		    'placeholder': 'is version of',
+		    'is_required': False
+	    },
+	    {
+		    'name': 'conforms_to',
+		    'validator': ['ignore_missing'],
+		    'element': 'input',
+		    'type': 'text',
+		    'label': 'Conforms To',
+		    'placeholder': 'conforms to',
+		    'is_required': False
+	    },
+	    {
+		    'name': 'contact_point',
+		    'validator': ['ignore_missing'],
+		    'element': 'input',
+		    'type': 'text',
+		    'label': 'Point of Contact',
+		    'placeholder': 'point of contact',
 		    'is_required': False
 	    }
 	]

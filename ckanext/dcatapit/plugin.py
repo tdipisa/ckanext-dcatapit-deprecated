@@ -7,6 +7,11 @@ import ckanext.dcatapit.validators as validators
 import ckanext.dcatapit.schema as dcatapit_schema
 import ckanext.dcatapit.helpers as helpers
 
+import logging
+
+log = logging.getLogger(__file__)
+
+
 class DcatapitPlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
 	# IDatasetForm
@@ -36,6 +41,15 @@ class DcatapitPlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                 ]
             })
 
+    	'''schema.update({
+            'tag_string': [
+            	toolkit.get_validator('not_empty'),
+            	toolkit.get_validator('tag_string_convert')
+            ]
+        })
+
+        log.info(":::::::::::::::::::::::::::::: %r", schema)'''
+
         return schema
 
     def _modify_package_schema_for_read(self, schema):
@@ -50,6 +64,15 @@ class DcatapitPlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
                     toolkit.get_converter('convert_from_extras')
                 ] + validators
             })
+
+        '''schema.update({
+            'tag_string': [
+            	toolkit.get_validator('not_empty'),
+            	toolkit.get_validator('tag_string_convert')
+            ]
+        })
+
+        log.info(":::::::::::::::::::::::::::::: %r", schema)'''
 
         return schema
 
@@ -80,7 +103,7 @@ class DcatapitPlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
     def get_validators(self):
 		return {
-            'method': validators.method
+            'range_validator': validators.range_validator
         }
 
     def get_helpers(self):
