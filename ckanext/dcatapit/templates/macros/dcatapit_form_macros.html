@@ -28,7 +28,11 @@
              name="{{ range_names[0] }}" 
              value="{{ values[0] | empty_and_escape }}" 
              placeholder="{{ placeholders[0] }}" 
-             onchange="$('#{{name}}-hidden').val($('#{{ range_names[0] }}-value').val() + ',' + $('#{{ range_names[1] }}-value').val())" />
+             onchange="if($('#{{ range_names[0] }}-value').val() || $('#{{ range_names[1] }}-value').val()){
+             		$('#{{name}}-hidden').val($('#{{ range_names[0] }}-value').val() + ',' + $('#{{ range_names[1] }}-value').val())
+             	} else {
+             		$('#{{name}}-hidden').val('')
+             	} " />
 
       <label for="{{ range_names[1] }}-label" class="add-on">{{ _(range_labels[1]) }}</label>
       <input id="{{ range_names[1] }}-value" 
@@ -36,7 +40,11 @@
              name="{{ range_names[1] }}" 
              value="{{ values[1] | empty_and_escape }}" 
              placeholder="{{ placeholders[1] }}" 
-             onchange="$('#{{name}}-hidden').val($('#{{ range_names[0] }}-value').val() + ',' + $('#{{ range_names[1] }}-value').val())" />
+             onchange="if($('#{{ range_names[0] }}-value').val() || $('#{{ range_names[1] }}-value').val()){
+             		$('#{{name}}-hidden').val($('#{{ range_names[0] }}-value').val() + ',' + $('#{{ range_names[1] }}-value').val())
+             	} else {
+             		$('#{{name}}-hidden').val('')
+             	} " />
     </div>
   {% endcall %}
 {% endmacro %}

@@ -5,13 +5,16 @@ from datetime import datetime
 
 log = logging.getLogger(__file__)
 
+
+def isBlank (string):
+    return not (string and string.strip())
+
 def range_validator(value, context):
-	log.info("::::::::::::::::::::::::::::::::::: %r", value)
-	if value:
+	if not isBlank(value):
 		ranges = value.split(',')
 
 		for r in ranges:
 			if not r:
-				raise Invalid('Invalid range, one or more value is missing')
+				raise Invalid('Invalid range, one value is missing')
 
 	return value

@@ -31,6 +31,16 @@ def get_json_schema():
 		    'is_required': True
 	    },
 	    {
+		    'name': 'sub_theme',
+		    'validator': ['ignore_missing'],
+		    'element': 'select',
+		    'type': 'list',
+		    'label': 'Sub Theme',
+		    'placeholder': 'sub theme of the dataset',
+		    'data_module_source': '/api/2/util/tag/autocomplete?incomplete=?',
+		    'is_required': True
+	    },
+	    {
 		    'name': 'publisher_uri',
 		    'validator': ['ignore_missing'],
 		    'element': 'input',
@@ -130,6 +140,24 @@ def get_json_schema():
 		    'type': 'text',
 		    'label': 'Point of Contact',
 		    'placeholder': 'point of contact',
+		    'is_required': False
+	    },
+	    {
+		    'name': 'rights_holder',
+		    'validator': ['not_empty'],
+		    'element': 'input',
+		    'type': 'text',
+		    'label': 'Rights Holder',
+		    'placeholder': 'rights holder of the dataset',
+		    'is_required': True
+	    },
+	    {
+		    'name': 'creator',
+		    'validator': ['ignore_missing'],
+		    'element': 'input',
+		    'type': 'text',
+		    'label': 'Creator',
+		    'placeholder': 'creator of the dataset',
 		    'is_required': False
 	    }
 	]
