@@ -38,7 +38,7 @@ def get_json_schema():
 		    'label': 'Sub Theme',
 		    'placeholder': 'sub theme of the dataset',
 		    'data_module_source': '/api/2/util/tag/autocomplete?incomplete=?',
-		    'is_required': True
+		    'is_required': False
 	    },
 	    {
 		    'name': 'publisher_uri',

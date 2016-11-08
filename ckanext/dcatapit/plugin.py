@@ -28,7 +28,7 @@ class DcatapitPlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
         toolkit.add_public_directory(config_, 'public')
         toolkit.add_resource('fanstatic', 'ckanext-dcatapit')
 		
-    def _modify_package_schema_for_edit(self, schema):
+    def _modify_package_schema(self, schema):
         for field in dcatapit_schema.get_json_schema():
 
         	validators = []
@@ -52,14 +52,26 @@ class DcatapitPlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         return schema
 
-    def _modify_package_schema_for_read(self, schema):
+    def create_package_schema(self):
+        schema = super(DcatapitPlugin, self).create_package_schema()
+        schema = self._modify_package_schema(schema)
+        return schema
+
+    def update_package_schema(self):
+        schema = super(DcatapitPlugin, self).update_package_schema()
+        schema = self._modify_package_schema(schema)
+        return schema
+
+    def show_package_schema(self):
+        schema = super(DcatapitPlugin, self).show_package_schema()
+        
         for field in dcatapit_schema.get_json_schema():
 
-        	validators = []
-        	for validator in field['validator']:
-        		validators.append(toolkit.get_validator(validator))
+            validators = []
+            for validator in field['validator']:
+                validators.append(toolkit.get_validator(validator))
 
-        	schema.update({
+            schema.update({
                 field['name']: [
                     toolkit.get_converter('convert_from_extras')
                 ] + validators
@@ -67,28 +79,13 @@ class DcatapitPlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
         '''schema.update({
             'tag_string': [
-            	toolkit.get_validator('not_empty'),
-            	toolkit.get_validator('tag_string_convert')
+                toolkit.get_validator('not_empty'),
+                toolkit.get_validator('tag_string_convert')
             ]
         })
 
         log.info(":::::::::::::::::::::::::::::: %r", schema)'''
 
-        return schema
-
-    def create_package_schema(self):
-        schema = super(DcatapitPlugin, self).create_package_schema()
-        schema = self._modify_package_schema_for_edit(schema)
-        return schema
-
-    def update_package_schema(self):
-        schema = super(DcatapitPlugin, self).update_package_schema()
-        schema = self._modify_package_schema_for_edit(schema)
-        return schema
-
-    def show_package_schema(self):
-        schema = super(DcatapitPlugin, self).show_package_schema()
-        schema = self._modify_package_schema_for_read(schema)
         return schema
 
     def is_fallback(self):
