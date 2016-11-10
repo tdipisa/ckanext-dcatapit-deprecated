@@ -1,6 +1,36 @@
 
+def get_custom_organization_schema():
+	return [
+	    {
+		    'name': 'email',
+		    'validator': ['not_empty'],
+		    'element': 'input',
+		    'type': 'email',
+		    'label': 'EMail',
+		    'placeholder': 'organization email',
+		    'is_required': True
+	    },
+	    {
+		    'name': 'telephone',
+		    'validator': ['ignore_missing'],
+		    'element': 'input',
+		    'type': 'text',
+		    'label': 'Telephone',
+		    'placeholder': 'organization telephone',
+		    'is_required': False
+	    },
+	    {
+		    'name': 'site',
+		    'validator': ['ignore_missing'],
+		    'element': 'input',
+		    'type': 'url',
+		    'label': 'Site URL',
+		    'placeholder': 'organization site url',
+		    'is_required': False
+	    }
+	]
 
-def get_json_schema():
+def get_custom_package_schema():
 	return [
 	    {
 		    'name': 'dataset_identifier',
@@ -41,7 +71,7 @@ def get_json_schema():
 		    'is_required': False
 	    },
 	    {
-		    'name': 'publisher_uri',
+		    'name': 'publisher',
 		    'validator': ['ignore_missing'],
 		    'element': 'input',
 		    'type': 'text',
@@ -69,16 +99,16 @@ def get_json_schema():
 	    },
 	    {
 		    'name': 'geographical_coverage',
-		    'validator': ['not_empty'],
+		    'validator': ['ignore_missing'],
 		    'element': 'input',
 		    'type': 'text',
 		    'label': 'Geographical Coverage',
 		    'placeholder': 'geographical coverage',
-		    'is_required': True
+		    'is_required': False
 	    },
 	    {
 		    'name': 'language',
-		    'validator': ['not_empty'],
+		    'validator': ['ignore_missing'],
 		    'element': 'select',
 		    'type': 'list',
 		    'label': 'Dataset Languages',
