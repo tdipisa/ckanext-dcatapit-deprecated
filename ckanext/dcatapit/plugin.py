@@ -14,7 +14,7 @@ import logging
 
 log = logging.getLogger(__file__)
 
-class DcatapitPlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, toolkit.DefaultGroupForm):
+class DCATAPITPackagePlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
 	# IDatasetForm
     plugins.implements(plugins.IDatasetForm)
@@ -24,8 +24,6 @@ class DcatapitPlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, toolki
     plugins.implements(plugins.IValidators)
     # ITemplateHelpers
     plugins.implements(plugins.ITemplateHelpers)
-    # IGroupForm
-    plugins.implements(plugins.IGroupForm, inherit=True)
     
     # ------------- IConfigurer ---------------#
 
@@ -60,17 +58,17 @@ class DcatapitPlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, toolki
         return schema
 
     def create_package_schema(self):
-        schema = super(DcatapitPlugin, self).create_package_schema()
+        schema = super(DCATAPITPackagePlugin, self).create_package_schema()
         schema = self._modify_package_schema(schema)
         return schema
 
     def update_package_schema(self):
-        schema = super(DcatapitPlugin, self).update_package_schema()
+        schema = super(DCATAPITPackagePlugin, self).update_package_schema()
         schema = self._modify_package_schema(schema)
         return schema
 
     def show_package_schema(self):
-        schema = super(DcatapitPlugin, self).show_package_schema()
+        schema = super(DCATAPITPackagePlugin, self).show_package_schema()
         
         for field in dcatapit_schema.get_custom_package_schema():
 
@@ -114,8 +112,29 @@ class DcatapitPlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, toolki
     def get_helpers(self):
         return {
             'get_dcatapit_package_schema': helpers.get_dcatapit_package_schema,
-            'get_dcatapit_organization_schema': helpers.get_dcatapit_organization_schema,
             'get_dict_field_index': helpers.get_dict_field_index
+        }
+
+
+class DCATAPITOrganizationPlugin(plugins.SingletonPlugin, toolkit.DefaultGroupForm):
+
+    # IConfigurer
+    plugins.implements(plugins.IConfigurer)
+    # ITemplateHelpers
+    plugins.implements(plugins.ITemplateHelpers)
+    # IGroupForm
+    plugins.implements(plugins.IGroupForm, inherit=True)
+    
+    # ------------- IConfigurer ---------------#
+
+    def update_config(self, config_):
+        toolkit.add_template_directory(config_, 'templates')
+        toolkit.add_public_directory(config_, 'public')
+        toolkit.add_resource('fanstatic', 'ckanext-dcatapit')
+
+    def get_helpers(self):
+        return {
+            'get_dcatapit_organization_schema': helpers.get_dcatapit_organization_schema
         }
 
     # ------------- IGroupForm ---------------#
@@ -183,28 +202,28 @@ class DcatapitPlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, toolki
             return self.form_to_db_schema()
 
     def form_to_db_schema_api_create(self):
-        schema = super(DcatapitPlugin, self).form_to_db_schema_api_create()
+        schema = super(DCATAPITOrganizationPlugin, self).form_to_db_schema_api_create()
         schema = self._modify_group_schema(schema)
         return schema
 
     def form_to_db_schema_api_update(self):
-        schema = super(DcatapitPlugin, self).form_to_db_schema_api_update()
+        schema = super(DCATAPITOrganizationPlugin, self).form_to_db_schema_api_update()
         schema = self._modify_group_schema(schema)
         return schema
 
     def form_to_db_schema(self):
-        schema = super(DcatapitPlugin, self).form_to_db_schema()
+        schema = super(DCATAPITOrganizationPlugin, self).form_to_db_schema()
         schema = self._modify_group_schema(schema)
         return schema
 
     def _modify_group_schema(self, schema):
         for field in dcatapit_schema.get_custom_organization_schema():
 
-        	validators = []
-        	for validator in field['validator']:
-        		validators.append(toolkit.get_validator(validator))
+            validators = []
+            for validator in field['validator']:
+                validators.append(toolkit.get_validator(validator))
 
-        	schema.update({
+            schema.update({
                 field['name']: validators + [
                     toolkit.get_converter('convert_to_extras')
                 ]
@@ -213,37 +232,36 @@ class DcatapitPlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, toolki
         return schema
 
     def db_to_form_schema(self):
-    	'''This is an interface to manipulate data from the database
+        '''This is an interface to manipulate data from the database
         into a format suitable for the form (optional)'''
         schema = self.default_show_group_schema()
 
         for field in dcatapit_schema.get_custom_organization_schema():
 
-        	validators = []
-        	for validator in field['validator']:
-        		validators.append(toolkit.get_validator(validator))
+            validators = []
+            for validator in field['validator']:
+                validators.append(toolkit.get_validator(validator))
 
-        	schema.update({
+            schema.update({
                 field['name']: [
-                    toolkit.get_converter('convert_to_extras')
+                    toolkit.get_converter('convert_from_extras')
                 ] + validators
             })
 
         return schema
 
     def default_show_group_schema(self):
-	    schema = logic.schema.default_group_schema()
+        schema = logic.schema.default_group_schema()
 
-	    # make default show schema behave like when run with no validation
-	    schema['num_followers'] = []
-	    schema['created'] = []
-	    schema['display_name'] = []
-	    #schema['extras'] = {'__extras': [ckan.lib.navl.validators.keep_extras]}
-	    schema['package_count'] = []
-	    schema['packages'] = {'__extras': [lib.navl.validators.keep_extras]}
-	    schema['revision_id'] = []
-	    schema['state'] = []
-	    schema['users'] = {'__extras': [lib.navl.validators.keep_extras]}
+        # make default show schema behave like when run with no validation
+        schema['num_followers'] = []
+        schema['created'] = []
+        schema['display_name'] = []
+        #schema['extras'] = {'__extras': [ckan.lib.navl.validators.keep_extras]}
+        schema['package_count'] = []
+        schema['packages'] = {'__extras': [lib.navl.validators.keep_extras]}
+        schema['revision_id'] = []
+        schema['state'] = []
+        schema['users'] = {'__extras': [lib.navl.validators.keep_extras]}
 
-	    return schema
-
+        return schema

@@ -80,7 +80,8 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points='''
         [ckan.plugins]
-        dcatapit=ckanext.dcatapit.plugin:DcatapitPlugin
+        dcatapit_pkg=ckanext.dcatapit.plugin:DCATAPITPackagePlugin
+        dcatapit_org=ckanext.dcatapit.plugin:DCATAPITOrganizationPlugin        
 		
 		[ckan.rdf.profiles]
         italian_dcat_ap=ckanext.sweden.dcat.profiles:ItalianDCATAPProfile
