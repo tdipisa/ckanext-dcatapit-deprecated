@@ -100,10 +100,11 @@ def get_custom_package_schema():
 	    {
 		    'name': 'geographical_coverage',
 		    'validator': ['ignore_missing'],
-		    'element': 'input',
-		    'type': 'text',
+		    'element': 'select',
+		    'type': 'list',
 		    'label': 'Geographical Coverage',
 		    'placeholder': 'geographical coverage',
+		    'data_module_source': '/api/2/util/tag/autocomplete?incomplete=?',
 		    'is_required': False
 	    },
 	    {
@@ -118,13 +119,13 @@ def get_custom_package_schema():
 	    },
 	    {
 		    'name': 'temporal_coverage',
-		    'validator': ['ignore_missing', 'range_validator'],
-		    'element': 'range',
+		    'validator': ['ignore_missing', 'couple_validator'],
+		    'element': 'couple',
 		    'type': 'date',
 		    'label': 'Temporal Coverage',
 		    'placeholder': 'temporal coverage',
 		    'is_required': False,
-		    'renges': [
+		    'couples': [
 		    	{
 		    		'name': 'start_date',
 		    		'label': 'Start Date'
@@ -164,30 +165,41 @@ def get_custom_package_schema():
 		    'is_required': False
 	    },
 	    {
-		    'name': 'contact_point',
-		    'validator': ['ignore_missing'],
-		    'element': 'input',
-		    'type': 'text',
-		    'label': 'Point of Contact',
-		    'placeholder': 'point of contact',
-		    'is_required': False
-	    },
-	    {
 		    'name': 'rights_holder',
-		    'validator': ['not_empty'],
-		    'element': 'input',
+		    'validator': ['not_empty', 'couple_validator'],
+		    'element': 'couple',
 		    'type': 'text',
 		    'label': 'Rights Holder',
 		    'placeholder': 'rights holder of the dataset',
-		    'is_required': True
+		    'is_required': True,
+		    'couples': [
+		    	{
+		    		'name': 'holder_name',
+		    		'label': 'Name'
+		    	},
+			    {
+		    		'name': 'holder_code_identified',
+		    		'label': 'IPA/IVA'
+		    	}
+		    ]
 	    },
 	    {
 		    'name': 'creator',
-		    'validator': ['ignore_missing'],
-		    'element': 'input',
+		    'validator': ['ignore_missing', 'couple_validator'],
+		    'element': 'couple',
 		    'type': 'text',
 		    'label': 'Creator',
 		    'placeholder': 'creator of the dataset',
-		    'is_required': False
+		    'is_required': False,
+		    'couples': [
+		    	{
+		    		'name': 'creator_name',
+		    		'label': 'Name'
+		    	},
+			    {
+		    		'name': 'creator_code_identified',
+		    		'label': 'IPA/IVA'
+		    	}
+		    ]
 	    }
 	]

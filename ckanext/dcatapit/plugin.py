@@ -106,13 +106,14 @@ class DCATAPITPackagePlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm)
 
     def get_validators(self):
 		return {
-            'range_validator': validators.range_validator
+            'couple_validator': validators.couple_validator
         }
+
+    # ------------- ITemplateHelpers ---------------#
 
     def get_helpers(self):
         return {
-            'get_dcatapit_package_schema': helpers.get_dcatapit_package_schema,
-            'get_dict_field_index': helpers.get_dict_field_index
+            'get_dcatapit_package_schema': helpers.get_dcatapit_package_schema
         }
 
 
@@ -131,6 +132,8 @@ class DCATAPITOrganizationPlugin(plugins.SingletonPlugin, toolkit.DefaultGroupFo
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
         toolkit.add_resource('fanstatic', 'ckanext-dcatapit')
+
+    # ------------- ITemplateHelpers ---------------#
 
     def get_helpers(self):
         return {
