@@ -1,4 +1,50 @@
 
+def get_custom_config_schema():
+	return [
+	    {
+		    'name': 'ckanext.dcatapit_config.catalog_theme',
+		    'validator': ['ignore_missing'],
+		    'element': 'select',
+		    'type': 'list',
+		    'label': 'Catalog Themes',
+		    'placeholder': 'eg. economy, mental health, government',
+		    'data_module_source': '/api/2/util/tag/autocomplete?incomplete=?',
+		    'description': 'Themes of the catalog',
+		    'is_required': False
+	    },
+	    {
+		    'name': 'ckanext.dcatapit_configpublisher_name',
+		    'validator': ['not_empty'],
+		    'element': 'input',
+		    'type': 'text',
+		    'label': 'Dataset Editor',
+		    'placeholder': 'dataset editor',
+		    'description': 'The responsible organization of the catalog',
+		    'is_required': True
+	    },
+	    {
+		    'name': 'ckanext.dcatapit_configpublisher_code_identifier',
+		    'validator': ['not_empty'],
+		    'element': 'input',
+		    'type': 'number',
+		    'label': 'Catalog Organization Code',
+		    'placeholder': 'IPA/IVA',
+		    'description': 'The IVA/IPA code of the catalog organization',
+		    'is_required': True
+	    },
+	    {
+		    'name': 'ckanext.dcatapit_config.catalog_issued',
+		    'validator': ['ignore_missing'],
+		    'element': 'input',
+		    'type': 'date',
+		    'label': 'Catalog Release Date',
+		    'placeholder': 'catalog release date',
+		    'description': 'The creation date of the catalog',
+		    'is_required': False
+	    }
+	]
+
+
 def get_custom_organization_schema():
 	return [
 	    {
@@ -72,12 +118,22 @@ def get_custom_package_schema():
 	    },
 	    {
 		    'name': 'publisher',
-		    'validator': ['ignore_missing'],
-		    'element': 'input',
+		    'validator': ['ignore_missing', 'couple_validator'],
+		    'element': 'couple',
 		    'type': 'text',
 		    'label': 'Dataset Editor',
 		    'placeholder': 'dataset editor',
-		    'is_required': False
+		    'is_required': False,
+		    'couples': [
+		    	{
+		    		'name': 'publisher_name',
+		    		'label': 'Name'
+		    	},
+			    {
+		    		'name': 'publisher_code_identified',
+		    		'label': 'IPA/IVA'
+		    	}
+		    ]
 	    },
 	    {
 		    'name': 'issued',

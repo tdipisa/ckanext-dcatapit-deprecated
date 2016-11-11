@@ -268,3 +268,36 @@ class DCATAPITOrganizationPlugin(plugins.SingletonPlugin, toolkit.DefaultGroupFo
         schema['users'] = {'__extras': [lib.navl.validators.keep_extras]}
 
         return schema
+
+class DCATAPITConfigurerPlugin(plugins.SingletonPlugin):
+
+    # IConfigurer
+    plugins.implements(plugins.IConfigurer)
+    # ITemplateHelpers
+    plugins.implements(plugins.ITemplateHelpers)
+    
+    # ------------- IConfigurer ---------------#
+
+    def update_config(self, config):
+        # Add extension templates directory
+        toolkit.add_template_directory(config, 'templates')
+
+    def update_config_schema(self, schema):        
+        for field in dcatapit_schema.get_custom_config_schema():
+
+            validators = []
+            for validator in field['validator']:
+                validators.append(toolkit.get_validator(validator))
+
+            schema.update({
+                field['name']: validators
+            })
+
+        return schema
+
+    # ------------- ITemplateHelpers ---------------#
+
+    def get_helpers(self):
+        return {
+            'get_dcatapit_configuration_schema': helpers.get_dcatapit_configuration_schema
+        }

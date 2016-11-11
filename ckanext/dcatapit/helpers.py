@@ -11,3 +11,9 @@ def get_dcatapit_package_schema():
 def get_dcatapit_organization_schema():
     log.debug('Retrieving DCAT-AP_IT organization schema fields...')
     return dcatapit_schema.get_custom_organization_schema()
+
+def get_dcatapit_configuration_schema():
+    log.debug('Retrieving DCAT-AP_IT configuration schema fields...')
+    return dcatapit_schema.get_custom_config_schema()
+
+

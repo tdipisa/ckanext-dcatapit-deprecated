@@ -82,6 +82,7 @@ setup(
         [ckan.plugins]
         dcatapit_pkg=ckanext.dcatapit.plugin:DCATAPITPackagePlugin
         dcatapit_org=ckanext.dcatapit.plugin:DCATAPITOrganizationPlugin        
+        dcatapit_config=ckanext.dcatapit.plugin:DCATAPITConfigurerPlugin
 		
 		[ckan.rdf.profiles]
         italian_dcat_ap=ckanext.sweden.dcat.profiles:ItalianDCATAPProfile
