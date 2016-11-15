@@ -1,4 +1,4 @@
-
+\
 def get_custom_config_schema():
 	return [
 	    {
@@ -99,11 +99,13 @@ def get_custom_package_schema():
 	    {
 		    'name': 'theme',
 		    'validator': ['not_empty'],
+			'converter_type': 'tag',
+			'converter': 'eu_themes',
 		    'element': 'select',
 		    'type': 'list',
 		    'label': 'Dataset Themes',
 		    'placeholder': 'eg. economy, mental health, government',
-		    'data_module_source': '/api/2/util/tag/autocomplete?incomplete=?',
+		    'data_module_source': '/api/2/util/vocabulary/autocomplete?vocabulary_id=eu_themes&incomplete=?',
 		    'is_required': True
 	    },
 	    {
@@ -171,7 +173,7 @@ def get_custom_package_schema():
 		    'label': 'Dataset Languages',
 		    'placeholder': 'eg. italian, german, english',
 		    'data_module_source': '/api/2/util/tag/autocomplete?incomplete=?',
-		    'is_required': True
+		    'is_required': False
 	    },
 	    {
 		    'name': 'temporal_coverage',

@@ -86,5 +86,8 @@ setup(
 		
 		[ckan.rdf.profiles]
         italian_dcat_ap=ckanext.sweden.dcat.profiles:ItalianDCATAPProfile
+
+        [paste.paster_command]
+        vocabulary=ckanext.dcatapit.commands.dcatapit:DCATAPITCommands
     ''',
 )
