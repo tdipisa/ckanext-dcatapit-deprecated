@@ -17,14 +17,6 @@ log = logging.getLogger(__file__)
 from routes.mapper import SubMapper, Mapper as _Mapper
 
 
-def eu_themes():
-    try:
-        tag_list = toolkit.get_action('tag_list')
-        eu_themes = tag_list(data_dict={'vocabulary_id': 'eu_themes'})
-        return eu_themes
-    except toolkit.ObjectNotFound:
-        return None
-
 class DCATAPITPackagePlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm):
 
 	# IDatasetForm
@@ -61,19 +53,17 @@ class DCATAPITPackagePlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm)
 
     def _modify_package_schema(self, schema):
         for field in dcatapit_schema.get_custom_package_schema():
+            if 'ignore' in field and field['ignore'] == True:
+                continue
 
             validators = []
             for validator in field['validator']:
                 validators.append(toolkit.get_validator(validator))
 
-            converter = None
-            if 'converter_type' in field and field['converter_type'] == 'tag':
-                converter = toolkit.get_converter('convert_to_tags')(field['converter'])
-            else:
-                converter = toolkit.get_converter('convert_to_extras')
+            converters = [toolkit.get_converter('convert_to_extras')]
 
-        	schema.update({
-                field['name']: validators + [converter]
+            schema.update({
+                field['name']: validators + converters
             })
 
     	schema.update({
@@ -100,19 +90,17 @@ class DCATAPITPackagePlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm)
         schema = super(DCATAPITPackagePlugin, self).show_package_schema()
         
         for field in dcatapit_schema.get_custom_package_schema():
+            if 'ignore' in field and field['ignore'] == True:
+                continue
 
             validators = []
             for validator in field['validator']:
                 validators.append(toolkit.get_validator(validator))
 
-            converter = None
-            if 'converter_type' in field and field['converter_type'] == 'tag':
-                converter = toolkit.get_converter('convert_from_tags')(field['converter'])
-            else:
-                converter = toolkit.get_converter('convert_from_extras')
+            converters = [toolkit.get_converter('convert_from_extras')]
 
             schema.update({
-                field['name']: [converter] + validators
+                field['name']: converters + validators
             })
 
         schema.update({
@@ -120,8 +108,6 @@ class DCATAPITPackagePlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm)
                 toolkit.get_validator('not_empty')
             ]
         })
-
-        schema['tags']['__extras'].append(toolkit.get_converter('free_tags_only'))
 
         log.debug("Schema updated for DCAT_AP-TI:  %r", schema)
 
@@ -148,7 +134,8 @@ class DCATAPITPackagePlugin(plugins.SingletonPlugin, toolkit.DefaultDatasetForm)
 
     def get_helpers(self):
         return {
-            'get_dcatapit_package_schema': helpers.get_dcatapit_package_schema
+            'get_dcatapit_package_schema': helpers.get_dcatapit_package_schema,
+            'getVocabularyItems': helpers.getVocabularyItems
         }
 
 

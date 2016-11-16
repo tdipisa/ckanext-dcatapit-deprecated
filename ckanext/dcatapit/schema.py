@@ -1,14 +1,14 @@
-\
+
 def get_custom_config_schema():
 	return [
 	    {
 		    'name': 'ckanext.dcatapit_config.catalog_theme',
 		    'validator': ['ignore_missing'],
-		    'element': 'select',
-		    'type': 'list',
+		    'element': 'multiselect',
+		    'type': 'vocabulary',
 		    'label': 'Catalog Themes',
 		    'placeholder': 'eg. economy, mental health, government',
-		    'data_module_source': '/api/2/util/tag/autocomplete?incomplete=?',
+		    'data_module_source': '/api/2/util/vocabulary/autocomplete?vocabulary_id=eu_themes&incomplete=?',
 		    'description': 'Themes of the catalog',
 		    'is_required': False
 	    },
@@ -99,10 +99,8 @@ def get_custom_package_schema():
 	    {
 		    'name': 'theme',
 		    'validator': ['not_empty'],
-			'converter_type': 'tag',
-			'converter': 'eu_themes',
-		    'element': 'select',
-		    'type': 'list',
+		    'element': 'multiselect',
+		    'type': 'vocabulary',
 		    'label': 'Dataset Themes',
 		    'placeholder': 'eg. economy, mental health, government',
 		    'data_module_source': '/api/2/util/vocabulary/autocomplete?vocabulary_id=eu_themes&incomplete=?',
@@ -110,9 +108,10 @@ def get_custom_package_schema():
 	    },
 	    {
 		    'name': 'sub_theme',
+		    'ignore': True,
 		    'validator': ['ignore_missing'],
-		    'element': 'select',
-		    'type': 'list',
+		    'element': 'multiselect',
+		    'type': 'vocabulary',
 		    'label': 'Sub Theme',
 		    'placeholder': 'sub theme of the dataset',
 		    'data_module_source': '/api/2/util/tag/autocomplete?incomplete=?',
@@ -158,21 +157,21 @@ def get_custom_package_schema():
 	    {
 		    'name': 'geographical_coverage',
 		    'validator': ['ignore_missing'],
-		    'element': 'select',
-		    'type': 'list',
+		    'element': 'multiselect',
+		    'type': 'vocabulary',
 		    'label': 'Geographical Coverage',
 		    'placeholder': 'geographical coverage',
-		    'data_module_source': '/api/2/util/tag/autocomplete?incomplete=?',
+		    'data_module_source': '/api/2/util/vocabulary/autocomplete?vocabulary_id=places&incomplete=?',
 		    'is_required': False
 	    },
 	    {
 		    'name': 'language',
 		    'validator': ['ignore_missing'],
-		    'element': 'select',
-		    'type': 'list',
+		    'element': 'multiselect',
+		    'type': 'vocabulary',
 		    'label': 'Dataset Languages',
 		    'placeholder': 'eg. italian, german, english',
-		    'data_module_source': '/api/2/util/tag/autocomplete?incomplete=?',
+		    'data_module_source': '/api/2/util/vocabulary/autocomplete?vocabulary_id=languages&incomplete=?',
 		    'is_required': False
 	    },
 	    {
@@ -198,10 +197,11 @@ def get_custom_package_schema():
 		    'name': 'accrual_periodicity',
 		    'validator': ['not_empty'],
 		    'element': 'select',
-		    'type': 'list',
+		    'type': 'vocabulary',
+		    'vocabulary_name': 'frequencies',
 		    'label': 'Frequency',
 		    'placeholder': 'accrual periodicity',
-		    'data_module_source': '/api/2/util/tag/autocomplete?incomplete=?',
+		    'data_module_source': '/api/2/util/vocabulary/autocomplete?vocabulary_id=frequencies&incomplete=?',
 		    'is_required': True
 	    },
 	    {

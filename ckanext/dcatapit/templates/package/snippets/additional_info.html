@@ -2,28 +2,14 @@
 
 {% block package_additional_info %}
   {{ super() }}
-  <h1>{{ pkg_dict }}</h1>
-  {% if pkg_dict.holder %}
-    {% set holder = h.dti_get_localized_field_value('holder', pkg_dict) %}
+
+  {#{ pkg_dict }#}
+
+  {% if pkg_dict.theme %}
     <tr>
-      <th scope="row" class="dataset-label">{{ _("Holder") }}</th>
-      <td class="dataset-details">{{ holder or pkg_dict.holder }}</td>
+      <th scope="row" class="dataset-label">{{ _('EU Themes') }}</th>
+      <td class="dataset-details" property="foaf:homepage">{{ pkg_dict.theme }}</td>
     </tr>
   {% endif %}
-
-  {% if pkg_dict.url %}
-    <tr>
-      <th scope="row" class="dataset-label">{{ _('Source') }}</th>
-      {% if h.is_url(pkg_dict.url) %}
-        <td class="dataset-details" property="foaf:homepage">{{ h.link_to(pkg_dict.url, pkg_dict.url, rel='foaf:homepage', target='_blank') }}</td>
-      {% else %}
-        <td class="dataset-details" property="foaf:homepage">{{ pkg_dict.url }}</td>
-      {% endif %}
-    </tr>
-  {% endif %}
-
-  {% block extras scoped %}
-    {{ super() }}
-  {% endblock %}
 
 {% endblock %}
